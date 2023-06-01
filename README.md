@@ -3,4 +3,4 @@ This is a daily planner to help plan out a typical work day. You can enter items
 <br><br>
 ![image](https://github.com/jshiffert/Daily_Planner/assets/130510457/8fa0202c-1c98-492f-8a1b-bca8ce41c3b4)
 <br><br>
-https://jshiffert.github.io/Daily_Planner/
+<a href="https://jshiffert.github.io/Daily_Planner/" target="_blank" rel="noopener noreferrer">Deployed Site</a>
