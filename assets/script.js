@@ -58,9 +58,7 @@ hourDisplayer();
 $(document).ready(function () {
   // create plannerItem if not already existing
   var scheduleItems = JSON.parse(localStorage.getItem("plannerItem"));
-  console.log(scheduleItems);
   if (scheduleItems == null) {
-    console.log('hello');
     scheduleItems = [];
     for (var i=0; i < 9; i++) {
       var defaultItem = {
@@ -68,7 +66,6 @@ $(document).ready(function () {
       }
       scheduleItems.push(defaultItem);
     }
-    console.log(scheduleItems);
     window.localStorage.setItem("plannerItem", JSON.stringify(scheduleItems));
   }
 
@@ -80,7 +77,6 @@ $(document).ready(function () {
       }
       scheduleItems.push(defaultItem);
     }
-    console.log(scheduleItems);
     window.localStorage.setItem("plannerItem", JSON.stringify(scheduleItems));
     alert("Something was wrong with your storage. It has been cleared. Sorry for your loss.");
   } else {
@@ -94,7 +90,6 @@ $(document).ready(function () {
           }
           scheduleItems.push(defaultItem);
         }
-        console.log(scheduleItems);
         window.localStorage.setItem("plannerItem", JSON.stringify(scheduleItems));
         alert("Something was wrong with your storage. It has been cleared. Sorry for your loss.");
       }
@@ -109,38 +104,52 @@ $(document).ready(function () {
       id: hourId,
       item: input
     };
-    // for (var i = 8; i >= 0 ; i--) {
-    //   console.log(scheduleItems[i]);
-    //   if (hourId == scheduleItems[i].id) {
-    //     scheduleItems[i] = newItem;
-    //   }
-    // }
     index = hourIdList.indexOf(hourId);
-    console.log(index);
+    scheduleItems[index] = newItem;
     window.localStorage.setItem('plannerItem', JSON.stringify(scheduleItems));
   });
 
   function hourUpdater() {
     var currentHour = dayjs().format('hA');
     index = hourTextList.indexOf(currentHour);
-    // loop over time blocks
-    i=0;
-    $('.time-block').each(function () {
-      if (i < index) {
-        $(this).addClass('past');
-      } else if (i == index) {
-        $(this).addClass('present');
-      } else if (i > index){
-        $(this).addClass('future');
+    if (index != -1) {
+      // loop over time blocks
+      i=0;
+      $('.time-block').each(function () {
+        if (i < index) {
+          $(this).addClass('past');
+        } else if (i == index) {
+          $(this).addClass('present');
+        } else if (i > index){
+          $(this).addClass('future');
+        }
+        i++;
+      });
+    } else {
+      if (currentHour.slice(-2) == 'PM') {
+        $('.time-block').each(function () {
+          $(this).addClass('past');
+        })
+      } else if (currentHour.slice(-2) == 'AM') {
+        $('.time-block').each(function () {
+          $(this).addClass('future');
+        })
       }
-      i++;
-    });
+    }
   }
 
   hourUpdater();
   setInterval(hourUpdater, 15000);
   // load any saved data from localStorage
-  $('#hour-9 .description').val(localStorage.getItem('hour-9'));
+  $('#hour-9 .description').val(scheduleItems[0].item);
+  $('#hour-10 .description').val(scheduleItems[1].item);
+  $('#hour-11 .description').val(scheduleItems[2].item);
+  $('#hour-12 .description').val(scheduleItems[3].item);
+  $('#hour-1 .description').val(scheduleItems[4].item);
+  $('#hour-2 .description').val(scheduleItems[5].item);
+  $('#hour-3 .description').val(scheduleItems[6].item);
+  $('#hour-4 .description').val(scheduleItems[7].item);
+  $('#hour-5 .description').val(scheduleItems[8].item);
   // display current day on page
   $('#currentDay').text(dayjs().format('dddd, MMMM D, YYYY'));
   //display time blocks
