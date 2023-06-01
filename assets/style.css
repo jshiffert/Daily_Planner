@@ -3,6 +3,10 @@ body {
   font-size: 16px;
 }
 
+h1, p {
+  font-family: 'Fondamento';
+}
+
 textarea {
   background: transparent;
   border: none;
