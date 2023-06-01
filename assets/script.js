@@ -33,21 +33,61 @@ $(document).ready(function () {
       id: hourId,
       item: input
     };
-    scheduleItems.push(newItem);
+    for (var i = 8; i >= 0 ; i--) {
+      console.log(scheduleItems[i]);
+      if (hourId == scheduleItems[i].id) {
+        scheduleItems[i] = newItem;
+      }
+    }
     window.localStorage.setItem('plannerItem', JSON.stringify(scheduleItems));
-    console.log(scheduleItems[scheduleItems.length-1].id)
   });
+
+  function hourDisplayer() {
+    var hourIdList = ['hour-9','hour-10','hour-11','hour-12','hour-1','hour-2','hour-3','hour-4','hour-5'];
+    var hourTextList = ['9AM','10AM','11AM','12AM','1PM','2PM','3PM','4PM','5PM'];
+    var rootEl = $('#root');
+    for (var i=0; i < hourIdList.length; i++) {
+      var hourEl = $('<div>');
+      hourEl.addClass('row time-block present');
+      hourEl.attr('id', hourIdList[i]);
+      var col1 = $('<div>');
+      col1.addClass('col-2 col-md-1 hour text-center py-3');
+      col1.text(hourTextList[i]);
+      hourEl.append(col1);
+      var textEl = $('<textarea>');
+      textEl.addClass(' col-8 col-md-10 description');
+      textEl.attr('rows','3');
+      textEl.text(" ");
+      hourEl.append(textEl);
+      var buttonEl = $('<button>');
+      buttonEl.addClass('btn saveBtn col-2 col-md-1')
+      buttonEl.attr('aria-label','save')
+      var iEl = $('<i>');
+      iEl.addClass('fas fa-save');
+      iEl.attr('aria-hidden','true');
+      buttonEl.append(iEl);
+      hourEl.append(buttonEl);
+      rootEl.append(hourEl);
+    }
+  }
 
   function hourUpdater() {
     var currentHour = dayjs().hour();
+    console.log(currentHour)
     // loop over time blocks
     $('.time-block').each(function () {
+      // if (currentHour < )
     });
   }
+
+  hourDisplayer();
   hourUpdater();
   setInterval(hourUpdater, 15000);
   // load any saved data from localStorage
   $('#hour-9 .description').val(localStorage.getItem('hour-9'));
   // display current day on page
   $('#currentDay').text(dayjs().format('dddd, MMMM D, YYYY'));
+  //display time blocks
+  
+
 });
